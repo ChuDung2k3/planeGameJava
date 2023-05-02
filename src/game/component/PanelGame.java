@@ -248,32 +248,32 @@ public class PanelGame extends JComponent {
             }
         }).start();
     }
-    private void checkBullets(Bullet bullet)
-    {
-        for(int i = 0; i <chickens.size(); ++i)
+        private void checkBullets(Bullet bullet)
         {
-            Chicken chicken = chickens.get(i);
-            if(chicken != null)
+            for(int i = 0; i <chickens.size(); ++i)
             {
-                Area area = new Area(bullet.getShape());
-                area.intersect(chicken.getShape());
-                if(!area.isEmpty())
+                Chicken chicken = chickens.get(i);
+                if(chicken != null)
                 {
-                    if(!chicken.updateHP(bullet.getSize()))
+                    Area area = new Area(bullet.getShape());
+                    area.intersect(chicken.getShape());
+                    if(!area.isEmpty())
                     {
-                        score++;
-                        chickens.remove(chicken);
-                        sound.soundCuckoo();
+                        if(!chicken.updateHP(bullet.getSize()))
+                        {
+                            score++;
+                            chickens.remove(chicken);
+                            sound.soundCuckoo();
+                        }
+                        else
+                        {
+                            sound.soundCollide();
+                        }
+                        bullets.remove(bullet);
                     }
-                    else
-                    {
-                        sound.soundCollide();
-                    }
-                    bullets.remove(bullet);
                 }
             }
         }
-    }
     private void checkPlayer(Chicken chicken)
     {
         if(chicken != null)
@@ -290,7 +290,7 @@ public class PanelGame extends JComponent {
                     sound.soundDestroy();
                 }
 
-                if( !player.updateHP(chickenHp /2))
+                if( !player.updateHP(chickenHp))
                 {
                     player.setAlive(false);
                     sound.soundDestroy();
